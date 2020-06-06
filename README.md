@@ -13,4 +13,4 @@ Project will cover some industry standards of developements
 
 ## Optional
 
-6.Jenkins Scripts
+5.Jenkins Scripts
