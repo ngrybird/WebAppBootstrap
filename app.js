@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 
 const notesRouter = require("./routes/notesRoutes");
 const authRouter = require("./routes/authRouter");
+const signupRouter = require("./routes/signupRouter");
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.post("/search", function(req, res, next) {
 
 app.use(notesRouter);
 app.use(authRouter);
+app.use(signupRouter);
 
 //404 Page not found error
 app.use((req, res, next) => {
