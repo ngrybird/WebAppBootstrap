@@ -3,11 +3,12 @@ const path = require("path");
 const bodyParser = require("body-parser");
 
 //const { MongoClient } = require("mongodb");
-//const mongoConnect = require("./utils/database");
+const mongoConnect = require("./utils/database").mongoConnect;
 
 const notesRouter = require("./routes/notesRoutes");
 const authRouter = require("./routes/authRouter");
 const signupRouter = require("./routes/signupRouter");
+const todoappRouteer = require("./routes/toDoAppRouter");
 
 const app = express();
 
@@ -32,7 +33,6 @@ app.get("/", function(req, res, next) {
 });
 
 app.post("/search", function(req, res, next) {
-  console.log(req.body);
   res.redirect("/");
 });
 
@@ -40,16 +40,16 @@ app.use(notesRouter);
 app.use(authRouter);
 app.use(signupRouter);
 
+//To do app added
+app.use(todoappRouteer);
+
 //404 Page not found error
 app.use((req, res, next) => {
   res.status(404).render("404", { pageTitle: "404 Page not found" });
 });
 
-app.listen("3001", () => {
-  console.log("Server started");
+mongoConnect(() => {
+  app.listen("3001", () => {
+    console.log("Server Started");
+  });
 });
-
-// mongoConnect(client => {
-//   console.log(client);
-//   app.listen("3001");
-// });

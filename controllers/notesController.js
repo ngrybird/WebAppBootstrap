@@ -3,6 +3,5 @@ exports.getAllNotes = (req, res, next) => {
 };
 
 exports.addNewNote = (req, res, next) => {
-  console.log(req.body);
   res.send({ value: "req added" });
 };
