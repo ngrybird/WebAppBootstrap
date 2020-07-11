@@ -16,6 +16,7 @@ const authRouter = require("./routes/authRouter");
 const signupRouter = require("./routes/signupRouter");
 const todoappRouteer = require("./routes/toDoAppRouter");
 
+//MONGODB uri
 const MONGO_DB_URI =
   "mongodb+srv://SuperUser:wQGIH77i9iW9oKYc@cluster0.zeaqe.mongodb.net/test?retryWrites=true&w=majority";
 
@@ -27,23 +28,29 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //Serving static content like css
 app.use(express.static(__dirname + "/public"));
 
+//flash messages on error
 app.use(flash());
 
+//Storing sessions on database
 const store = new mongoDBStore({
   uri: MONGO_DB_URI,
   collection: "sessions"
 });
-const csrfProtection = csrf();
 
 app.use(
   session({
     secret: "my secret",
     resave: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24
+    },
     saveUninitialized: false,
-    store: store
+    store: store,
+    unset: "destroy"
   })
 );
-
+//Adding csrf tokens on each request
+const csrfProtection = csrf();
 app.use(csrfProtection);
 
 // set the view engine to ejs
@@ -77,11 +84,6 @@ app.use((req, res, next) => {
   res.status(404).render("404", { pageTitle: "404 Page not found" });
 });
 
-// mongoConnect(() => {
-//   app.listen("3001", () => {
-//     console.log("Server Started");
-//   });
-// });
 mongoose
   .connect(MONGO_DB_URI)
   .then(result => app.listen("3001", console.log("Connected to server")))
