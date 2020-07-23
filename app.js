@@ -53,6 +53,13 @@ app.use(
 const csrfProtection = csrf();
 app.use(csrfProtection);
 
+//set isAuthenticated and csrf token to every res
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
 // set the view engine to ejs
 app.set("view engine", "ejs");
 app.set("views", "views");

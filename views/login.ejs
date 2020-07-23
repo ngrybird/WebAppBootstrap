@@ -1,27 +1,25 @@
 <%- include('includes/header.ejs')%>
-<div>
-  <a href="/">Home Page</a>
-</div>
+<%- include('includes/navigation.ejs')%>
 
+<main>
+  <% if (errorMessage) { %>
+  <div class="user-message user-message--error"><%= errorMessage %></div>
+  <% } %>
+  <!-- LOGIN FORM -->
+  <form class="login-form" action="/login" method="post">
+    <div>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    </div>
+    <div class="form-control">
+      <label>Email</label>
+      <input type="text" name="email">
+    </div>
+    <div class="form-control">
+      <label>Password</label>
+      <input type="password" name="password">
+    </div>
 
-<% if (errorMessage) { %>
-<div class="user-message user-message--error"><%= errorMessage %></div>
-<% } %>
-<!-- LOGIN FORM -->
-<form action="/login" method="post">
-  <div>
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-  </div>
-  <div>
-    <label>Email</label>
-    <input type="text" name="email">
-  </div>
-  <div>
-    <label>Password</label>
-    <input type="password" name="password">
-  </div>
-
-  <button type="submit">Login</button>
-</form>
-
+    <button type="submit">Login</button>
+  </form>
+</main>
 <%- include('includes/footer.ejs')%>

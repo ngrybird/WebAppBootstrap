@@ -1,29 +1,25 @@
 <%- include('includes/header.ejs')%>
-<form action="/logout" method="POST">
+<%- include('includes/navigation.ejs')%>
+
+<main>
   <div>
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <% if(tasks.length>0) {%>
+    <% for (let task of tasks){ %>
+    <div><%= task.task %></div>
+    <% } } else { %>
+    <div>No tasks today</div>
+    <% } %>
   </div>
-  <button type="submit">logout</button>
-</form>
+  <!-- SIGNUP FORM -->
+  <form action="/task" method="post">
+    <div>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    </div>
+    <div class="form-group">
+      <input type="text" name="task">
+    </div>
+    <button type="submit">Add Task</button>
+  </form>
 
-<div>
-  <% if(tasks.length>0) {%>
-  <% for (let task of tasks){ %>
-  <div><%= task.task %></div>
-  <% } } else { %>
-  <div>No tasks today</div>
-  <% } %>
-</div>
-<!-- SIGNUP FORM -->
-<form action="/task" method="post">
-  <div>
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-  </div>
-  <div class="form-group">
-    <input type="text" name="task">
-  </div>
-  <button type="submit">Add Task</button>
-</form>
-
-
+</main>
 <%- include('includes/footer.ejs')%>

@@ -2,8 +2,15 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 
 exports.getSignup = (req, res, next) => {
+  let message = req.flash("error");
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
   res.render("signup", {
-    pageTitle: "signup"
+    pageTitle: "signup",
+    errorMessage: message
   });
 };
 exports.postSignup = (req, res, next) => {
@@ -14,6 +21,7 @@ exports.postSignup = (req, res, next) => {
   User.findOne({ email: email })
     .then(userDoc => {
       if (userDoc) {
+        req.flash("error", "User already exist.");
         return res.redirect("/signup");
       }
       return bcrypt
